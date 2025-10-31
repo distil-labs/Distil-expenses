@@ -13,7 +13,7 @@ Then set up the virtual environment:
 ```
 python -m venv .venv
 . .venv/bin/activate
-pip install huggingface-cli pandas openai
+pip install huggingface_hub pandas openai
 ```
 
 Available models hosted on huggingface:
