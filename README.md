@@ -89,7 +89,24 @@ ANSWER:  On average you spent monthly 14.79 (73.97 / 5) from 2024-01-01 to 2024-
 --------------------------------------------------
 ```
 
-### 4. Fine-tuning setup
+### 3. Use your own data
+If you want to use your own expenses documents, you have to use the same format as `transactions.csv`:
+```
+date,provider_name,amount,category
+2024-01-05,Whole Foods,-145.32,shopping
+2024-01-10,Netflix,-15.99,entertainment
+2024-01-18,Shell Gas Station,-52.40,transportation
+...
+```
+Mandatory columns are `date`, `amount` and `category` - any other columns are ignored. The date has to be in the `YYYY-MM-DD` format, expenses should be **negative** while income should be positive. You can use any categories (more common categories are more suitable).
+
+Next, pass the path of your file to the script, for example:
+
+```
+python finance_tool_demo.py --file ~/Documents/expenses.csv
+```
+
+### 5. Fine-tuning setup
 The tuned models were trained using knowledge distillation, leveraging the teacher model GPT-OSS 120B.
 We used 24 train examples and complemented them with 2500 synthetic examples.
 
@@ -108,7 +125,7 @@ The training config file and train/test data splits are available under `data/`.
 ### FAQ
 **Q: Why don't we just use Llama3.X yB for this??**
 
-We focus on small models (< 8B parameters), and these make errors when used out of the box (see 4.)
+We focus on small models (< 8B parameters), and these make errors when used out of the box (see 5.)
 
 **Q: The model does not work as expected**
 
