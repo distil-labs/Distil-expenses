@@ -1,0 +1,35 @@
+date,provider_name,amount,category
+2024-01-05,Whole Foods,-145.32,shopping
+2024-01-10,Netflix,-15.99,entertainment
+2024-01-15,Employer,3500.00,salary
+2024-01-18,Shell Gas Station,-52.40,transportation
+2024-01-22,Amazon,-89.99,shopping
+2024-01-25,Starbucks,-24.50,dining
+2024-02-01,Whole Foods,-132.18,shopping
+2024-02-10,Target,-67.89,shopping
+2024-02-15,Employer,3500.00,salary
+2024-02-20,Uber,-35.20,transportation
+2024-02-25,Restaurant,-78.50,dining
+2024-03-03,Whole Foods,-156.70,shopping
+2024-03-08,Spotify,-9.99,entertainment
+2024-03-15,Employer,3500.00,salary
+2024-03-20,CVS Pharmacy,-43.25,shopping
+2024-03-25,Movie Theater,-32.00,entertainment
+2024-03-28,Gas Station,-48.90,transportation
+2024-04-02,Trader Joes,-98.45,shopping
+2024-04-10,Amazon,-124.99,shopping
+2024-04-15,Employer,3500.00,salary
+2024-04-18,Coffee Shop,-18.75,dining
+2024-04-28,Bookstore,-45.60,shopping
+2024-05-01,Safeway,-141.20,shopping
+2024-05-06,Netflix,-15.99,entertainment
+2024-05-10,Doctor Visit,-150.00,shopping
+2024-05-15,Employer,3500.00,salary
+2024-05-20,Gas Station,-55.30,transportation
+2024-05-25,Restaurant,-92.40,dining
+2024-06-03,Whole Foods,-167.80,shopping
+2024-06-12,Clothing Store,-189.99,shopping
+2024-06-15,Employer,3500.00,salary
+2024-06-20,Concert Tickets,-145.00,entertainment
+2024-06-25,Pharmacy,-28.50,shopping
+2024-06-28,Gas Station,-51.20,transportation
