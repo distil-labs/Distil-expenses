@@ -72,13 +72,27 @@ When solving a real task, generate only the answer, do not generate anything els
 # PYTHON FUNCTIONS
 # ============================================================================
 
+def range_string(category: str | None, min_amount: float | None, max_amount: float | None):
+    res_str = ''
+    if min_amount is not None and max_amount is not None:
+        res_str += f" between {str(min_amount)} and {str(max_amount)}"
+    elif min_amount is not None:
+        res_str += f" over {str(min_amount)}"
+    elif max_amount is not None:
+        res_str += f" under {str(max_amount)}"
+    
+    if category is not None:
+        res_str += f" on {category}"
+    return res_str
+
 class FinanceTools:
-    def __init__(self, csv_path: str):
+    def __init__(self, csv_path: str, return_json: bool = False):
         """Initialize with path to transactions CSV"""
         self.df = pd.read_csv(csv_path)
         self.df['date'] = pd.to_datetime(self.df['date'])
         self.df['amount'] = pd.to_numeric(self.df['amount'])
-    
+        self.return_json = return_json
+
     def count_transactions(
         self,
         category: Optional[str] = None,
@@ -107,14 +121,22 @@ class FinanceTools:
             df = df[df['amount'].abs() <= max_amount]
         
         count = len(df)
-        
-        return {
-            "count": count,
-            "category": category or "all categories",
-            "date_range": f"{start_date or 'beginning'} to {end_date or 'end'}",
-            "min_amount_filter": min_amount,
-            "max_amount_filter": max_amount
-        }
+        period = f"{start_date or 'beginning'} to {end_date or 'end'}"
+        if self.return_json:
+            return {
+                "count": count,
+                "category": category or "all categories",
+                "date_range": period,
+                "min_amount_filter": min_amount,
+                "max_amount_filter": max_amount
+            }
+        # Human readable
+        if min_amount is None and max_amount is None and category is None:
+            return f"From {period} you had {count} expenses."
+
+        res_str = f"From {period} you spent {count} times"
+        res_str += range_string(category, min_amount, max_amount)
+        return res_str + '.'
     
     def sum_transactions(
         self,
@@ -145,12 +167,18 @@ class FinanceTools:
         
         total = df['amount'].sum()
         
-        return {
-            "total": round(total, 2),
-            "count": len(df),
-            "category": category or "all categories",
-            "date_range": f"{start_date or 'beginning'} to {end_date or 'end'}"
-        }
+        period = f"{start_date or 'beginning'} to {end_date or 'end'}"
+        if self.return_json:
+            return {
+                "total": round(total, 2),
+                "count": len(df),
+                "category": category or "all categories",
+                "date_range": period
+            }
+        
+        res_str = f"From {period} you spent {round(abs(total), 2)} total"
+        res_str += range_string(category, min_amount, max_amount)
+        return res_str + '.'
     
     def compare_periods(
         self,
@@ -182,22 +210,37 @@ class FinanceTools:
         
         difference = period2_total - period1_total
         
-        return {
-            "period1": {
-                "date_range": f"{period1_start} to {period1_end}",
-                "total": round(period1_total, 2),
-                "count": len(period1_df)
-            },
-            "period2": {
-                "date_range": f"{period2_start} to {period2_end}",
-                "total": round(period2_total, 2),
-                "count": len(period2_df)
-            },
-            "difference": round(difference, 2),
-            "period2_vs_period1": "higher" if difference > 0 else "lower" if difference < 0 else "same",
-            "category": category or "all categories"
-        }
-    
+        if self.return_json:
+            return {
+                "period1": {
+                    "date_range": f"{period1_start} to {period1_end}",
+                    "total": round(period1_total, 2),
+                    "count": len(period1_df)
+                },
+                "period2": {
+                    "date_range": f"{period2_start} to {period2_end}",
+                    "total": round(period2_total, 2),
+                    "count": len(period2_df)
+                },
+                "difference": round(difference, 2),
+                "period2_vs_period1": "higher" if difference > 0 else "lower" if difference < 0 else "same",
+                "category": category or "all categories"
+            }
+        
+        res_str = "You spent"
+        if category is not None:
+            res_str += f" on {category}"
+        if difference > 0:
+            res_str += f" from {period1_start} to {period1_end} LESS than from {period2_start} to {period2_end}"
+            res_str += f" by {difference}"
+        elif difference < 0:
+            res_str += f" from {period1_start} to {period1_end} MORE than from {period2_start} to {period2_end}"
+            res_str += f" by {difference}"
+        else:
+            res_str += f" the SAME from {period2_start} to {period2_end} and from {period1_start} to {period1_end}"
+        
+        return res_str + '.'
+
     def average_monthly_expenses(
         self,
         start_date: str,
@@ -227,14 +270,20 @@ class FinanceTools:
         total_expenses = df['amount'].sum()
         avg_monthly = total_expenses / months if months > 0 else 0
         
-        return {
-            "average_monthly_expense": round(abs(avg_monthly), 2),
-            "total_expense": round(abs(total_expenses), 2),
-            "months": months,
-            "category": category or "all expense categories",
-            "date_range": f"{start_date} to {end_date}",
-            "transaction_count": len(df)
-        }
+        if self.return_json:
+            return {
+                "average_monthly_expense": round(abs(avg_monthly), 2),
+                "total_expense": round(abs(total_expenses), 2),
+                "months": months,
+                "category": category or "all expense categories",
+                "date_range": f"{start_date} to {end_date}",
+                "transaction_count": len(df)
+            }
+        
+        res_str = f"On average you spent monthly {round(abs(avg_monthly), 2)} ({round(abs(total_expenses), 2)} / {months}) from {start_date} to {end_date}"
+        if category is not None:
+            res_str += f" on {category}"
+        return res_str + '.'
 
 
 # ============================================================================
@@ -256,25 +305,27 @@ def execute_tool_call(tools: FinanceTools, tool_name: str, arguments: Dict[str, 
         return {"error": f"Unknown tool: {tool_name}"}
 
 
-def parse_and_execute(tools: FinanceTools, llm_response: str) -> Any:
+def parse_and_execute(tools: FinanceTools, llm_response: str, debug: bool = False) -> Any:
     """
     Parse LLM response and execute tool calls.
     Assumes the LLM returns JSON with tool_calls in OpenAI format.
     """
     try:
-        print(llm_response)
-        # TODO better
         results = []
         if not isinstance(llm_response, str):
             function_name = llm_response.function.name
             arguments = json.loads(llm_response.function.arguments)
             result = execute_tool_call(tools, function_name, arguments)
-            results.append({
-                "tool": function_name,
-                "arguments": arguments,
-                "result": result
-            })
-            return results
+            if debug:
+                    res = {
+                        "tool": function_name,
+                        "arguments": arguments,
+                        "result": result
+                    }
+            else:
+                res = result
+            results.append(res)
+            return results[0] if len(results) == 1 else results
 
         response_data = json.loads(llm_response)
         
@@ -286,12 +337,16 @@ def parse_and_execute(tools: FinanceTools, llm_response: str) -> Any:
                 arguments = json.loads(tool_call["function"]["arguments"])
                 
                 result = execute_tool_call(tools, function_name, arguments)
-                results.append({
-                    "tool": function_name,
-                    "arguments": arguments,
-                    "result": result
-                })
-            return results
+                if debug:
+                    res = {
+                        "tool": function_name,
+                        "arguments": arguments,
+                        "result": result
+                    }
+                else:
+                    res = result
+                results.append(res)
+            return results[0] if len(results) == 1 else results
         
         return {"error": "No tool_calls found in response"}
     
@@ -309,21 +364,30 @@ if __name__ == "__main__":
     parser.add_argument("--api-key", type=str, default="EMPTY", required=False)
     parser.add_argument("--model", type=str, default="expense_llama3.2", required=False)
     parser.add_argument("--port", type=int, default=11434, required=False)
-    parser.add_argument("--port", type=int, default=11434, required=False)
     parser.add_argument("--json", action="store_true", help="Write out jsons instead of messages.")
+    parser.add_argument("--debug", action="store_true", help="Write out function calls.")
 
     args = parser.parse_args()
 
     client = DistilLabsLLM(model_name=args.model, api_key=args.api_key, port=args.port)
 
     # Initialize tools with your CSV
-    tools = FinanceTools(args.file)
+    tools = FinanceTools(args.file, return_json=args.json)
 
     text = ''
     while True:
         text = input()
         if text.strip() == "exit":
             break
+
+        if not len(text.strip()):
+            continue
+
         api_call = client.invoke(text)
-        result = parse_and_execute(tools, api_call)
-        print(json.dumps(result, indent=2))
+        result = parse_and_execute(tools, api_call, debug=args.debug)
+        if isinstance(result, str):
+            print("\nANSWER: ", result)
+        else:
+            print(json.dumps(result, indent=2))
+
+        print('--------------------------------------------------')
