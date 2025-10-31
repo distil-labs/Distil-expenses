@@ -1,4 +1,6 @@
 # Distil-expenses
+![Llama with dollars instead of eyes](llogo.png)
+
 We trained SLM assistants for personal expenses summaries - two Llama 3.2 models (1B and 3B parameters) that you can run *locally* via Ollama!
 
 ### 1. Installation
