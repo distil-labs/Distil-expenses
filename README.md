@@ -78,17 +78,36 @@ ANSWER:  You spent from 2024-01-01 to 2024-03-31 LESS than from 2024-04-01 to 20
 ```
 Averages:
 ```
-What's my average spending on entertainment until end May?
+What's my average spending on entertainment until end May in 2024?
 
 ANSWER:  On average you spent monthly 14.79 (73.97 / 5) from 2024-01-01 to 2024-05-31 on entertainment.
 --------------------------------------------------
 ```
 
+### 4. Fine-tuning setup
+The tuned models were trained using knowledge distillation, leveraging the teacher model GPT-OSS 120B.
+We used 24 train examples and complemented them with 2500 synthetic examples.
+
+We compare the teacher model and both student models on 25 held-out test examples:
+
+| Model | Correct (25) | Tool call accuracy |
+|-------|--------------|--------------------|
+|GPT-OSS| 23 | 0.92 |
+|Llama3.2 3B (tuned)| 17 | 0.68 |
+|Llama3.2 1B (tuned)| 14 | 0.56 |
+|Llama3.2 3B (base)| 6 | 0.24 |
+|Llama3.2 1B (base)| 0 | 0.00 |
+
+The training config file and train/test data splits are available under `data/`.
 
 ### FAQ
-**Q: My model does not work as expected**
+**Q: Why don't we just use Llama3.X yB for this??**
 
-A: The tool calling is in active development! [Follow us on LinkedIn](https://www.linkedin.com/company/distil-labs/) for updates, or [join our community](https://join.slack.com/t/distil-labs-community/shared_invite/zt-36zqj87le-i3quWUn2bjErRq22xoE58g).
+We focus on small models (< 8B parameters), and these make errors when used out of the box (see 4.)
+
+**Q: The model does not work as expected**
+
+A: The tool calling on our platform is in active development! [Follow us on LinkedIn](https://www.linkedin.com/company/distil-labs/) for updates, or [join our community](https://join.slack.com/t/distil-labs-community/shared_invite/zt-36zqj87le-i3quWUn2bjErRq22xoE58g). You can also try to rephrase your query.
 
 ---
 **Q: I want to use tool calling for my use-case**

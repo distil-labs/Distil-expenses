@@ -374,9 +374,20 @@ if __name__ == "__main__":
     # Initialize tools with your CSV
     tools = FinanceTools(args.file, return_json=args.json)
 
+    print(f"""-------------------------------------------------------------
+[ PERSONAL FINANCES BY {args.model} - {args.file}]
+-------------------------------------------------------------
+What would you like to know about yor finances? I can answer questions like "What's my total expenses in 2024" or "Count all shopping over $10 in May 2024."
+
+Supported features: Sum, Count, Compare sum of 2 periods, Monthly Averages.
+Type "exit" to finish.
+        
+Ask me anything:
+""")
+
     text = ''
     while True:
-        text = input()
+        text = input("QUESTION: ")
         if text.strip() == "exit":
             break
 
@@ -390,4 +401,4 @@ if __name__ == "__main__":
         else:
             print(json.dumps(result, indent=2))
 
-        print('--------------------------------------------------')
+        print('-------------------------------------------------------------')

@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 distil-model/*
+distil-model-1b/*
 
 # C extensions
 *.so
