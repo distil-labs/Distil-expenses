@@ -114,9 +114,9 @@ We compare the teacher model and both student models on 25 held-out test example
 
 | Model | Correct (25) | Tool call accuracy |
 |-------|--------------|--------------------|
-|GPT-OSS| 23 | 0.92 |
-|Llama3.2 3B (tuned)| 17 | 0.68 |
-|Llama3.2 1B (tuned)| 14 | 0.56 |
+|GPT-OSS| 22 | 0.88 |
+|Llama3.2 3B (tuned)| 21 | 0.84 |
+|Llama3.2 1B (tuned)| 22 | 0.88 |
 |Llama3.2 3B (base)| 6 | 0.24 |
 |Llama3.2 1B (base)| 0 | 0.00 |
 
