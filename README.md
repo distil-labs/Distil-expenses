@@ -127,6 +127,8 @@ The training config file and train/test data splits are available under `data/`.
 
 We focus on small models (< 8B parameters), and these make errors when used out of the box (see 5.)
 
+---
+
 **Q: The model does not work as expected**
 
 A: The tool calling on our platform is in active development! [Follow us on LinkedIn](https://www.linkedin.com/company/distil-labs/) for updates, or [join our community](https://join.slack.com/t/distil-labs-community/shared_invite/zt-36zqj87le-i3quWUn2bjErRq22xoE58g). You can also try to rephrase your query.
