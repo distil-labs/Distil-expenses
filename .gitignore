@@ -6,6 +6,8 @@ __pycache__/
 distil-model/*
 distil-model-1b/*
 
+.DS_Store
+
 # C extensions
 *.so
 

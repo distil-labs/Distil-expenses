@@ -47,7 +47,7 @@ When solving a real task, generate only the answer, do not generate anything els
 
 
 <example>
-<question>The categories are: salary, food, fun. What's my average monthly income for 2024?</question>
+<question>What's my average monthly income for 2024?</question>
 <answer>{{"name": "average_monthly_expenses", "parameters": {{"start_date": "2024-01-01", "end_date": "2024-12-31", "category": "salary"}}}}</answer>
 </example>
 
@@ -232,10 +232,10 @@ class FinanceTools:
             res_str += f" on {category}"
         if difference > 0:
             res_str += f" from {period1_start} to {period1_end} LESS than from {period2_start} to {period2_end}"
-            res_str += f" by {difference}"
+            res_str += f" by {abs(difference)}"
         elif difference < 0:
             res_str += f" from {period1_start} to {period1_end} MORE than from {period2_start} to {period2_end}"
-            res_str += f" by {difference}"
+            res_str += f" by {abs(difference)}"
         else:
             res_str += f" the SAME from {period2_start} to {period2_end} and from {period1_start} to {period1_end}"
         
