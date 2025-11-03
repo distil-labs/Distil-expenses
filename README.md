@@ -121,6 +121,7 @@ We compare the teacher model and both student models on 25 held-out test example
 |Llama3.2 1B (base)| 0 | 0.00 |
 
 The training config file and train/test data splits are available under `data/`.
+UPDATE: +1 correctly classified example due to missed mislabeling (GPT-OSS, Llama 3.2 1B 0.88 -> 0.92, 3B 0.82 -> 0.88)
 
 ### FAQ
 **Q: Why don't we just use Llama3.X yB for this??**
